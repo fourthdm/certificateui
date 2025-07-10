@@ -1,0 +1,153 @@
+<!-- <button (click)="initiatePayment('your_payment_session_id')">Pay Now</button> -->
+<!-- <div class="container">
+    <h2>Payment Form</h2>
+    <form (ngSubmit)="initiatePayment(this.order.order_id)">
+        <label>Customer Name:</label>
+        <input [(ngModel)]="order.customer_details.customer_name" name="customer_name" required>
+        <br><br>
+
+        <label>Customer ID:</label>
+        <input [(ngModel)]="order.customer_details.customer_id" name="customer_id" required>
+        <br><br>
+
+        <label>Email:</label>
+        <input [(ngModel)]="order.customer_details.customer_email" name="email" required>
+        <br><br>
+
+        <label>Phone:</label>
+        <input [(ngModel)]="order.customer_details.customer_phone" name="phone" required>
+        <br><br>
+
+        <label>Amount:</label>
+        <input [(ngModel)]="order.order_amount" name="amount" type="number" required>
+        <br><br>
+
+        <button type="submit">Pay Now</button>
+    </form>
+</div> -->
+
+<!-- <div *ngIf="showPopup" class="popup">
+    <h3>Payment Successful!</h3>
+    <p>Order ID: {{ paymentData.order_id }}</p>
+    <p>Reference ID: {{ paymentData.payment_id }}</p>
+
+    <input [(ngModel)]="feedback" placeholder="Enter feedback">
+    <button (click)="submitFeedback()">Submit Feedback</button>
+
+    <div class="certificate-form">
+        <h3>Generate Certificate</h3>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <label>Name:</label>
+            <input formControlName="name" required><br><br>
+
+            <label>Email:</label>
+            <input formControlName="email" type="email" required><br><br>
+
+            <button type="submit">Generate Certificate</button>
+        </form>
+        <p *ngIf="message">{{ message }}</p>
+    </div>
+</div> -->
+
+<div class="container"><br>
+    <div class="card">
+        <div class="card-body">
+            <h2>Donation Form </h2>
+            <div class="container">
+                <form (ngSubmit)="initiatePayment()">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input [(ngModel)]="order.order_amount" type="radio" id="contactChoice1" name="contact" value="500" />
+                                    <label for="contactChoice1">500 &#8377;</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <input [(ngModel)]="order.order_amount" type="radio" id="contactChoice2" name="contact" value="10,000" />
+                                    <label for="contactChoice2">10,000 &#8377;</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <input [(ngModel)]="order.order_amount" type="radio" id="contactChoice3" name="contact" value="12,000" />
+                                    <label for="contactChoice3">12,000 &#x20B9;</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <input [(ngModel)]="order.order_amount" type="radio" id="contactChoice3" name="contact" value="15,000" />
+                                    <label for="contactChoice3">15,000 &#x20B9;</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Name:</label> <br>
+                            <input [(ngModel)]="order.customer_details.customer_name" name="customer_name" required>
+                            <br><br>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Customer ID:</label><br>
+                            <input [(ngModel)]="order.customer_details.customer_id" name="customer_id" required>
+                            <br><br>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Email:</label><br>
+                            <input [(ngModel)]="order.customer_details.customer_email" name="email" required>
+                            <br><br>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Phone:</label><br>
+                            <input [(ngModel)]="order.customer_details.customer_phone" name="phone" required>
+                            <br><br>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Pan No :</label><br>
+                            <input [(ngModel)]="order.customer_details.customer_panNo" name="panNo" type="text"
+                                required>
+                            <br><br>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Amount:</label><br>
+                            <input [(ngModel)]="order.order_amount" name="amount" type="number" required>
+                            <br><br>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-success btn-lg" type="submit"> <b>Pay Now</b> </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div *ngIf="showPopup" class="popup">
+    <h3>Payment Successful!</h3>
+    <p>Order ID: {{ paymentData.order_id }}</p>
+    <p>Reference ID: {{ paymentData.payment_id }}</p>
+
+    <input [(ngModel)]="feedback" placeholder="Enter feedback">
+    <button (click)="submitFeedback()">Submit Feedback</button>
+
+    <div class="certificate-form">
+        <h3>Generate Certificate</h3>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <label>Name:</label>
+            <input formControlName="name" required><br><br>
+
+            <label>Email:</label>
+            <input formControlName="email" type="email" required><br><br>
+
+            <button type="submit">Generate Certificate</button>
+        </form>
+        <p *ngIf="message">{{ message }}</p>
+    </div>
+</div> -->
