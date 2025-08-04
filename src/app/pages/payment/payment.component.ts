@@ -2,12 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CashfreeService } from 'src/app/cashfree.service';
+
 import { load } from '@cashfreepayments/cashfree-js';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import confetti from 'canvas-confetti';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+declare const Cashfree: any;
 
 @Component({
   selector: 'app-payment',
@@ -66,84 +69,167 @@ export class PaymentComponent implements OnInit {
     // this.launchConfetti();
   }
 
+  //   async initiatePayment() {
+  //     const cashfree = await load(); // Load SDK
+
+  //     if (!this.order.customer_details.customer_id) {
+  //       this.order.customer_details.customer_id = `CUST${Date.now()}`;
+  //     }
+
+  //     this.http.post('https://ysurveillance.com/fourthdm/token', this.order).subscribe({
+  //       next: (res: any) => {
+  //         const paymentSessionId = res.payment_session_id;
+
+  //         // const checkoutPromise = cashfree.checkout({
+  //         //   paymentSessionId: paymentSessionId,
+  //         //   redirectTarget: '_modal',
+  //         //   mode: 'TEST'
+  //         // });
+  //         console.log('Cashfree token response:', res);
+  //         if (!res.payment_session_id) {
+  //           this.toastr.error('Invalid payment session received from server');
+  //           return;
+  //         }
+  //         const checkoutPromise = cashfree.checkout({
+  //           paymentSessionId: paymentSessionId,
+  //           redirectTarget: '_modal',
+  //           mode: 'PROD'
+  //         });
+
+  //         checkoutPromise.then((result: any) => {
+  //           if (result.paymentDetails) {
+  //             const { customer_name, customer_email, customer_panNo } = this.order.customer_details;
+
+  //             this.spinner.show(undefined, {
+  //               type: 'ball-scale-multiple',
+  //               size: 'medium',
+  //               bdColor: 'rgba(0,0,0,0.6)',
+  //               color: '#fff',
+  //               fullScreen: true
+  //             });
+
+  //             this.http.post('https://ysurveillance.com/fourthdm/generate-certificate', {
+  //               name: customer_name,
+  //               email: customer_email,
+  //               panNo: customer_panNo
+  //             }).subscribe({
+  //               next: (response: any) => {
+  //                 this.spinner.hide(); // ✅ Hide spinner
+  //                 this.message = 'Certificate sent to your email!';
+  //                 this.toastr.success('Your certificate has been sent!', 'Success');
+  //                 this.launchConfetti();
+  //               },
+  //               error: (err) => {
+  //                 this.spinner.hide(); // ✅ Hide spinner on error
+  //                 this.toastr.error('Failed to send certificate.', 'Error');
+  //                 alert(this.message);
+  //               }
+  //             });
+
+  //             // this.http.post('http://localhost:8000/generate-certificate', {
+  //             //   name: customer_name,
+  //             //   email: customer_email,
+  //             //   panNo: customer_panNo
+  //             // }).subscribe({
+  //             //   next: (response: any) => {
+  //             //     this.message = 'Certificate sent to your email!';
+  //             //     // alert(this.message);
+  //             //     this.launchConfetti();
+  //             //   },
+  //             //   error: (err) => {
+  //             //     this.message = 'Error sending certificate.';
+  //             //     alert(this.message);
+  //             //   }
+  //             // });
+
+  //             this.zone.run(() => {
+  //               this.showPopupForm(result.paymentDetails);
+  //               this.resetOrderForm();
+  //             });
+  //           }
+  //         });
+  //       },
+  //       error: (err) => {
+  //         console.error("Payment session error", err);
+  //       }
+  //     });
+  //   }
+
+  //   showPopupForm(data: any) {
+  //     this.showPopup = true;
+  //     this.paymentData = data;
+  //     const name = this.order.customer_details.customer_name;
+  //     const email = this.order.customer_details.customer_email;
+  //     const panNo = this.order.customer_details.customer_panNo;
+  //     this.form.patchValue({ name, email, panNo }); // Populate form with customer details
+  //   }
+
+  //   launchConfetti(): void {
+
+  //     const frame = () => {
+  //       confetti({
+  //         particleCount: 150,
+  //         spread: 70,
+  //         origin: { y: 0.6 },
+  //         // colors: ['#732255', '#FFCA6C', '#FDFFB8', '#414042'],
+  //         // shapes: ['circle', 'square', 'triangle', 'reactangle'],
+  //         scalar: 1.5,
+  //       })
+  //     }
+
+  //     frame();
+  //   }
+  // }
+
+  //  order: any = {
+  //     order_amount: 500,
+  //     order_currency: 'INR',
+  //     customer_details: {
+  //       customer_name: '',
+  //       customer_email: '',
+  //       customer_phone: '',
+  //       customer_id: '', // will be autogenerated
+  //       customer_panNo: ''
+  //     }
+  //   };
+
+  // message: string = '';
+
+  // constructor(private http: HttpClient, private zone: NgZone) {}
+
+
+
   async initiatePayment() {
-    const cashfree = await load(); // Load SDK
+    const cashfree = await load();
+    console.log("Cashfree SDK loaded:", cashfree);
 
     if (!this.order.customer_details.customer_id) {
       this.order.customer_details.customer_id = `CUST${Date.now()}`;
     }
-
     this.http.post('https://ysurveillance.com/fourthdm/token', this.order).subscribe({
       next: (res: any) => {
+        console.log("Token Response:", res);
         const paymentSessionId = res.payment_session_id;
+        console.log("Extracted payment_session_id:", paymentSessionId);
 
-        // const checkoutPromise = cashfree.checkout({
-        //   paymentSessionId: paymentSessionId,
-        //   redirectTarget: '_modal',
-        //   mode: 'TEST'
-        // });
-        console.log('Cashfree token response:', res);
-        if (!res.payment_session_id) {
-          this.toastr.error('Invalid payment session received from server');
+        if (!paymentSessionId) {
+          console.error('Missing payment_session_id in response:', res);
           return;
         }
-        const checkoutPromise = cashfree.checkout({
-          paymentSessionId: paymentSessionId,
-          redirectTarget: '_modal',
-          mode: 'PROD'
-        });
 
-        checkoutPromise.then((result: any) => {
-          if (result.paymentDetails) {
-            const { customer_name, customer_email, customer_panNo } = this.order.customer_details;
+        cashfree.checkout({
+          paymentSessionId: paymentSessionId, // ✅ FIXED HERE
+          mode: 'PROD',
+          redirectTarget: '_modal'
 
-            this.spinner.show(undefined, {
-              type: 'ball-scale-multiple',
-              size: 'medium',
-              bdColor: 'rgba(0,0,0,0.6)',
-              color: '#fff',
-              fullScreen: true
-            });
-
-            this.http.post('https://ysurveillance.com/fourthdm/generate-certificate', {
-              name: customer_name,
-              email: customer_email,
-              panNo: customer_panNo
-            }).subscribe({
-              next: (response: any) => {
-                this.spinner.hide(); // ✅ Hide spinner
-                this.message = 'Certificate sent to your email!';
-                this.toastr.success('Your certificate has been sent!', 'Success');
-                this.launchConfetti();
-              },
-              error: (err) => {
-                this.spinner.hide(); // ✅ Hide spinner on error
-                this.toastr.error('Failed to send certificate.', 'Error');
-                alert(this.message);
-              }
-            });
-
-            // this.http.post('http://localhost:8000/generate-certificate', {
-            //   name: customer_name,
-            //   email: customer_email,
-            //   panNo: customer_panNo
-            // }).subscribe({
-            //   next: (response: any) => {
-            //     this.message = 'Certificate sent to your email!';
-            //     // alert(this.message);
-            //     this.launchConfetti();
-            //   },
-            //   error: (err) => {
-            //     this.message = 'Error sending certificate.';
-            //     alert(this.message);
-            //   }
-            // });
-
-            this.zone.run(() => {
-              this.showPopupForm(result.paymentDetails);
-              this.resetOrderForm();
-            });
+        }).then((result: any) => {
+          if (result.error) {
+            console.error('Payment Error:', result.error);
+          } else {
+            console.log('Payment Success:', result.paymentDetails);
           }
+        }).catch((error: any) => {
+          console.error('Checkout Error:', error);
         });
       },
       error: (err) => {
@@ -152,86 +238,92 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  showPopupForm(data: any) {
-    this.showPopup = true;
-    this.paymentData = data;
-    const name = this.order.customer_details.customer_name;
-    const email = this.order.customer_details.customer_email;
-    const panNo = this.order.customer_details.customer_panNo;
-    this.form.patchValue({ name, email, panNo }); // Populate form with customer details
-  }
+  // async initiatePayment() {
+  //   const cashfree = await load(); // Load Cashfree SDK
 
-  launchConfetti(): void {
+  //   // Add default customer ID if missing
+  //   if (!this.order.customer_details.customer_id) {
+  //     this.order.customer_details.customer_id = `CUST${Date.now()}`;
+  //   }
 
-    const frame = () => {
-      confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 },
-        // colors: ['#732255', '#FFCA6C', '#FDFFB8', '#414042'],
-        // shapes: ['circle', 'square', 'triangle', 'reactangle'],
-        scalar: 1.5,
-      })
-    }
+  //   // Call your backend to generate payment session ID
+  //   this.http.post('https://ysurveillance.com/fourthdm/token', this.order).subscribe({
+  //     next: (res: any) => {
+  //       console.log('Token Response:', res);
 
-    frame();
-  }
+  //       const paymentSessionId = res.payment_session_id;
+  //       if (!paymentSessionId) {
+  //         console.error('Missing payment_session_id in response:', res);
+  //         return;
+  //       }
+  //       // const paymentSessionId = res.payment_session_id; // make sure this matches backend
+  //       console.log('Extracted payment_session_id:', paymentSessionId);
+  //       const checkoutPromise = cashfree.checkout({
+  //         payment_session_id: paymentSessionId,
+  //         redirectTarget: '_modal', // or '_self'
+  //         mode: 'PROD'
+  //       });
+  //       // if (!paymentSessionId) {
+  //       //   alert('Error: No payment_session_id received from server.');
+  //       //   return;
+  //       // }
+
+  //       // Launch Cashfree Checkout
+  //       checkoutPromise.then((result: any) => {
+  //         if (result.error) {
+  //           console.error('Payment Error:', result.error);
+  //         } else if (result.paymentDetails) {
+  //           console.log('Payment Success:', result.paymentDetails);
+
+  //           const { customer_name: name, customer_email: email, customer_panNo: panNo } = this.order.customer_details;
+
+  //           // Send certificate after payment
+  //           this.http.post('https://ysurveillance.com/fourthdm/generate-certificate', { name, email, panNo })
+  //             .subscribe({
+  //               next: (response: any) => {
+  //                 console.log('Certificate sent successfully:', response);
+  //                 this.message = 'Certificate sent to your email!';
+  //                 alert(this.message);
+  //               },
+  //               error: (err) => {
+  //                 console.error('Certificate send error:', err);
+  //                 this.message = 'Error sending certificate. Please try again.';
+  //                 alert(this.message);
+  //               }
+  //             });
+
+  //           // Optional: Reset form
+  //           this.zone.run(() => {
+  //             this.resetOrderForm();
+  //           });
+  //         }
+  //       }).catch((err: any) => {
+  //         console.error('Checkout Error:', err);
+  //         alert('Unexpected error during checkout.');
+  //       });
+  //     },
+  //     error: (err) => {
+  //       console.error('Token Generation Error:', err);
+  //       alert('Failed to initiate payment. Please try again later.');
+  //     }
+  //   });
+  // }
+
+  // resetOrderForm() {
+  //   this.order = {
+  //     order_amount: 500,
+  //     order_currency: 'INR',
+  //     customer_details: {
+  //       customer_name: '',
+  //       customer_email: '',
+  //       customer_phone: '',
+  //       customer_id: '',
+  //       customer_panNo: ''
+  //     }
+  //   };
+  //   this.message = '';
+  // }
 }
-
-// async initiatePayment() {
-//   const cashfree = await load(); // Load SDK
-
-//   this.http.post('http://localhost:8000/token', this.order).subscribe({
-//     next: (res: any) => {
-//       const paymentSessionId = res.payment_session_id;
-
-//       //  Don't use `await` here!
-//       const checkoutPromise = cashfree.checkout({
-//         paymentSessionId: paymentSessionId,
-//         redirectTarget: '_modal', // Or '_self' for full-page
-//         mode: 'TEST'
-//       });
-
-//       //  Use .then() — it's a proper Promise
-//       checkoutPromise.then((result: any) => {
-//         if (result.error) {
-//           console.error('Payment Error:', result.error);
-//         } else if (result.paymentDetails) {
-//           console.log('Payment Success:', result.paymentDetails);
-
-//           const name = this.order.customer_details.customer_name;
-//           const email = this.order.customer_details.customer_email;
-//           const panNo = this.order.customer_details.customer_panNo;
-//           console.log("Sending cert data:", { name, email, panNo });
-//           //  Automatically send certificate
-//           this.http.post('http://localhost:8000/generate-certificate', { name, email, panNo })
-//             .subscribe({
-//               next: (response: any) => {
-//                 console.log('Certificate sent successfully', response);
-//                 this.message = 'Certificate sent to your email!';
-//                 alert('Certificate sent to your email!'); // Optional: alert user
-//               },
-//               error: (err) => {
-//                 console.error('Error sending certificate:', err);
-//                 this.message = 'Error sending certificate. Please try again.';
-//                 alert(this.message); // Optional: alert user
-//               }
-//             });
-//           //  Update UI
-//           this.zone.run(() => {
-//             this.showPopupForm(result.paymentDetails);
-//             this.resetOrderForm(); // Optional: reset the payment form
-//           });
-//         }
-//       }).catch((error: any) => {
-//         console.error('Error during checkout:', error);
-//       });
-//     },
-//     error: (err) => {
-//       console.error("Payment session error", err);
-//     }
-//   });
-// }
 
 // resetOrderForm() {
 //   this.order = {
