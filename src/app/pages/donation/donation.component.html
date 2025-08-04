@@ -1,0 +1,26 @@
+<div class="container mt-4">
+  <h2>Donate Now</h2>
+  <form (ngSubmit)="initiatePayment()">
+    <div class="form-group">
+      <label>Name</label>
+      <input [(ngModel)]="order.customer_details.customer_name" name="name" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input [(ngModel)]="order.customer_details.customer_email" name="email" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+      <label>Phone</label>
+      <input [(ngModel)]="order.customer_details.customer_phone" name="phone" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+      <label>Amount (₹)</label>
+      <input [(ngModel)]="order.order_amount" name="amount" class="form-control" type="number" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Pay Now</button>
+  </form>
+</div>

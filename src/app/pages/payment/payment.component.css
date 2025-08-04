@@ -6,3 +6,16 @@ label {
 button{
     border-right: 15px solid #f67700;
 }
+
+.input{
+    width: 100%;
+    padding: 10px;
+    border-radius: 25px ;
+}
+
+.inputA{
+    border-radius: 25px;
+    padding: 5px;
+    margin-left: 5px;
+    color: #732255, #FFCA6C, #00f, #ff0, #f00;
+}

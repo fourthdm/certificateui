@@ -52,75 +52,88 @@
 <div class="container"><br>
     <div class="card">
         <div class="card-body">
-            <h2>Donation Form </h2>
+            <h2>Donation Form </h2> <br><br>
             <div class="container">
                 <form (ngSubmit)="initiatePayment()">
                     <div class="row">
-
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <input [(ngModel)]="order.order_amount" type="radio" id="contactChoice1" name="contact" value="500" />
-                                    <label for="contactChoice1">500 &#8377;</label>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input [(ngModel)]="order.order_amount" type="radio" name="amount"
+                                                value="500" />
+                                            <label for="amount"> 500 &#8377;</label>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <input [(ngModel)]="order.order_amount" type="radio" name="amount"
+                                                value="10000" />
+                                            <label for="amount"> 10,000 &#8377;</label>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <input [(ngModel)]="order.order_amount" type="radio" name="amount"
+                                                value="12000" />
+                                            <label for="amount"> 12,000 &#x20B9;</label>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <input [(ngModel)]="order.order_amount" type="radio" name="amount"
+                                                value="15000" />
+                                            <label for="amount"> 15,000 &#x20B9;</label>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="col-md-3">
-                                    <input [(ngModel)]="order.order_amount" type="radio" id="contactChoice2" name="contact" value="10,000" />
-                                    <label for="contactChoice2">10,000 &#8377;</label>
+                                <div class="col-md-4">
+                                    <label>Amount: </label>
+                                    <input [(ngModel)]="order.order_amount" name="amount" type="number" value="24000"
+                                        placeholder="Enter Custom amount" class="inputA" required>
+                                    <br><br>
                                 </div>
 
-                                <div class="col-md-3">
-                                    <input [(ngModel)]="order.order_amount" type="radio" id="contactChoice3" name="contact" value="12,000" />
-                                    <label for="contactChoice3">12,000 &#x20B9;</label>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <input [(ngModel)]="order.order_amount" type="radio" id="contactChoice3" name="contact" value="15,000" />
-                                    <label for="contactChoice3">15,000 &#x20B9;</label>
-                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <label>Name:</label> <br>
-                            <input [(ngModel)]="order.customer_details.customer_name" name="customer_name" required>
+                            <input placeholder="Enter Name" [(ngModel)]="order.customer_details.customer_name"
+                                name="customer_name" class="input" required>
                             <br><br>
                         </div>
 
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label>Customer ID:</label><br>
                             <input [(ngModel)]="order.customer_details.customer_id" name="customer_id" required>
                             <br><br>
-                        </div>
-                    </div>
+                        </div> -->
 
-                    <div class="row">
                         <div class="col-md-6">
                             <label>Email:</label><br>
-                            <input [(ngModel)]="order.customer_details.customer_email" name="email" required>
+                            <input [(ngModel)]="order.customer_details.customer_email" name="email"
+                                placeholder="Enter Email" class="input" required>
                             <br><br>
                         </div>
                         <div class="col-md-6">
-                            <label>Phone:</label><br>
-                            <input [(ngModel)]="order.customer_details.customer_phone" name="phone" required>
+                            <label>Contact No.:</label><br>
+                            <input [(ngModel)]="order.customer_details.customer_phone" name="phone"
+                                placeholder="Enter Contact number" class="input" required>
                             <br><br>
                         </div>
-                    </div>
 
-                    <div class="row">
                         <div class="col-md-6">
                             <label>Pan No :</label><br>
                             <input [(ngModel)]="order.customer_details.customer_panNo" name="panNo" type="text"
-                                required>
+                                placeholder="Enter Pan No" class="input" required>
                             <br><br>
                         </div>
-                        <div class="col-md-6">
-                            <label>Amount:</label><br>
-                            <input [(ngModel)]="order.order_amount" name="amount" type="number" required>
-                            <br><br>
-                        </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-success btn-lg" type="submit"> <b>Pay Now</b> </button>
+
+
+                        <div class="text-center">
+                            <div>
+                                <button class="btn btn-success btn-lg" type="submit"> <b>Pay Now</b> </button>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -128,6 +141,14 @@
         </div>
     </div>
 </div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+    <p style="color: white">Wait a minute! Generating your Certificate.... </p>
+</ngx-spinner>
+
+<!-- <ngx-spinner bdColor="rgba(0,0,0,0.6)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+    <p style="color: white; font-size: 1.2rem;">Generating your certificate...</p>
+</ngx-spinner> -->
 
 <!-- <div *ngIf="showPopup" class="popup">
     <h3>Payment Successful!</h3>
